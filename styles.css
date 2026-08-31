@@ -1,0 +1,565 @@
+/* ===================================================================
+   Salah Tracker — visual identity
+   Palette drawn from Iznik tilework (deep teal, muted gold, ivory)
+   Display type: Amiri (a serif cut for Arabic + Latin, used in Qur'anic
+   typesetting) paired with Inter for numerals and interface text.
+   =================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+  --bg: #0e1e1c;
+  --surface: #15302b;
+  --surface-raised: #1b3a33;
+  --ink: #f3efe4;
+  --muted: #92a69d;
+  --muted-dim: #5f746c;
+  --gold: #c9a24d;
+  --gold-dim: rgba(201, 162, 77, 0.35);
+  --teal-line: #2c5a54;
+  --border: rgba(243, 239, 228, 0.09);
+  --prayed: #86a86a;
+  --prayed-dim: rgba(134, 168, 106, 0.16);
+  --missed: #c06a4f;
+  --missed-dim: rgba(192, 106, 79, 0.16);
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --font-display: 'Amiri', 'Georgia', serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
+
+html {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  font-family: var(--font-body);
+  color: var(--ink);
+  background-color: var(--bg);
+  background-image:
+    linear-gradient(135deg, rgba(201, 162, 77, 0.05) 1px, transparent 1px),
+    linear-gradient(45deg, rgba(201, 162, 77, 0.05) 1px, transparent 1px);
+  background-size: 34px 34px;
+  padding: 40px 20px 64px;
+}
+
+.app {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ---------- Header ---------- */
+
+.header {
+  position: relative;
+  padding: 28px 4px 22px;
+  overflow: hidden;
+}
+
+.header-arch {
+  position: absolute;
+  top: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 340px;
+  height: 150px;
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+.header-top {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.wordmark {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.wordmark h1 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 2.1rem;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+}
+
+.wordmark .arabic {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  color: var(--gold);
+  direction: rtl;
+}
+
+.date {
+  font-size: 0.85rem;
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.subtitle {
+  position: relative;
+  z-index: 1;
+  margin: 6px 0 0;
+  color: var(--muted);
+  font-size: 0.92rem;
+  max-width: 46ch;
+  line-height: 1.5;
+}
+
+/* ---------- Shared section shell ---------- */
+
+.section {
+  border-top: 1px solid var(--border);
+  padding: 22px 4px;
+}
+
+.section-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.section-head h2 {
+  margin: 0;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--ink);
+}
+
+.section-head .hint {
+  font-size: 0.78rem;
+  color: var(--muted-dim);
+}
+
+/* ---------- Tally strip ---------- */
+
+.tally {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+}
+
+.tally-figure {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.tally-figure .num {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+.tally-figure .num.prayed { color: var(--prayed); }
+.tally-figure .num.missed { color: var(--missed); }
+.tally-figure .num.pending { color: var(--muted); }
+
+.tally-figure .lbl {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.tally-charity {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: var(--muted);
+  text-align: right;
+}
+
+.tally-charity strong {
+  display: block;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Day timeline (signature element) ---------- */
+
+.timeline-wrap {
+  padding: 6px 0 2px;
+}
+
+.timeline-svg {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+.timeline-caption {
+  margin: 10px 0 0;
+  font-size: 0.85rem;
+  color: var(--muted);
+}
+
+.timeline-caption strong {
+  color: var(--ink);
+  font-weight: 600;
+}
+
+.timeline-caption .countdown {
+  color: var(--gold);
+  font-variant-numeric: tabular-nums;
+}
+
+/* ---------- Prayer list ---------- */
+
+.prayer-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.prayer-row {
+  display: grid;
+  grid-template-columns: 3px minmax(0, 1.3fr) minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 0 12px 12px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+}
+
+.prayer-row:last-child {
+  border-bottom: none;
+}
+
+.prayer-row::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--border);
+  transition: background 0.15s ease;
+}
+
+.prayer-row[data-current-status="prayed"]::before { background: var(--prayed); }
+.prayer-row[data-current-status="missed"]::before { background: var(--missed); }
+
+.prayer-info {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  min-width: 0;
+}
+
+.prayer-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+}
+
+.prayer-status-word {
+  font-size: 0.76rem;
+  color: var(--muted-dim);
+}
+
+.prayer-row[data-current-status="prayed"] .prayer-status-word { color: var(--prayed); }
+.prayer-row[data-current-status="missed"] .prayer-status-word { color: var(--missed); }
+
+.prayer-time {
+  font-family: var(--font-body);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.92rem;
+  padding: 5px 8px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  width: 100%;
+  min-width: 118px;
+  max-width: 132px;
+}
+
+.prayer-time:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+  border-color: var(--gold);
+}
+
+.status-buttons {
+  display: flex;
+  gap: 6px;
+}
+
+.btn-status {
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: transparent;
+  color: var(--muted);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 6px 10px;
+  cursor: pointer;
+  transition: border-color 0.15s ease, color 0.15s ease, background-color 0.15s ease;
+}
+
+.btn-status:hover {
+  border-color: var(--muted);
+  color: var(--ink);
+}
+
+.btn-status:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.btn-status.prayed.active {
+  background: var(--prayed-dim);
+  border-color: var(--prayed);
+  color: var(--prayed);
+}
+
+.btn-status.missed.active {
+  background: var(--missed-dim);
+  border-color: var(--missed);
+  color: var(--missed);
+}
+
+@keyframes settle {
+  0% { transform: scale(0.9); }
+  60% { transform: scale(1.06); }
+  100% { transform: scale(1); }
+}
+
+.prayer-row.just-set::before {
+  animation: settle 0.28s ease;
+}
+
+/* ---------- Weekly strip ---------- */
+
+.week-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
+}
+
+.week-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 4px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border);
+}
+
+.week-day.is-today {
+  border-color: var(--gold-dim);
+  background: rgba(201, 162, 77, 0.06);
+}
+
+.week-day .dow {
+  font-size: 0.72rem;
+  color: var(--muted);
+}
+
+.week-day .dom {
+  font-size: 0.68rem;
+  color: var(--muted-dim);
+  margin-top: -6px;
+}
+
+.week-dots {
+  display: flex;
+  gap: 3px;
+}
+
+.week-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--border);
+}
+
+.week-dots span.prayed { background: var(--prayed); }
+.week-dots span.missed { background: var(--missed); }
+
+/* ---------- Settings (details/summary) ---------- */
+
+.settings summary {
+  cursor: pointer;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--ink);
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.settings summary::-webkit-details-marker {
+  display: none;
+}
+
+.settings summary::before {
+  content: "";
+  width: 0;
+  height: 0;
+  border-left: 5px solid var(--gold);
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  transition: transform 0.15s ease;
+}
+
+.settings[open] summary::before {
+  transform: rotate(90deg);
+}
+
+.settings-body {
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.field label {
+  display: block;
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.field-charity {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.field-charity .prefix {
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+#charityPerMissed {
+  width: 100px;
+  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.95rem;
+}
+
+#charityPerMissed:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 1px;
+}
+
+.intention {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.55;
+  margin: 0;
+  padding: 12px 14px;
+  border-left: 2px solid var(--gold-dim);
+  background: var(--surface);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+}
+
+/* ---------- Footer ---------- */
+
+.footer {
+  padding: 24px 4px 0;
+  text-align: center;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted-dim);
+  line-height: 1.5;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 560px) {
+  body {
+    padding: 24px 14px 48px;
+  }
+
+  .header-top {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2px;
+  }
+
+  .prayer-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 14px;
+  }
+
+  .prayer-row > span:first-child {
+    display: none;
+  }
+
+  .prayer-info {
+    flex: 1 1 100%;
+  }
+
+  .prayer-time {
+    flex: 0 1 140px;
+    max-width: 140px;
+  }
+
+  .status-buttons {
+    flex: 1 1 auto;
+    justify-content: flex-end;
+  }
+
+  .tally {
+    row-gap: 10px;
+  }
+
+  .tally-charity {
+    margin-left: 0;
+    text-align: left;
+  }
+
+  .week-day {
+    padding: 8px 2px;
+  }
+
+  .week-day .dow {
+    font-size: 0.64rem;
+  }
+}

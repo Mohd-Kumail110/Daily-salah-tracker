@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Salah Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Track your five daily prayers, see your week at a glance, and set a charity intention for missed Salah." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+
+    <header class="header">
+      <svg class="header-arch" viewBox="0 0 340 150" fill="none" aria-hidden="true">
+        <path d="M12,140 L12,78 C12,32 60,8 170,8 C280,8 328,32 328,78 L328,140"
+              stroke="#c9a24d" stroke-width="1"/>
+        <path d="M40,140 L40,84 C40,50 78,28 170,28 C262,28 300,50 300,84 L300,140"
+              stroke="#c9a24d" stroke-width="1" opacity="0.5"/>
+      </svg>
+      <div class="header-top">
+        <div class="wordmark">
+          <h1>Salah Tracker</h1>
+          <span class="arabic" lang="ar">الصلاة</span>
+        </div>
+        <p id="todayDate" class="date"></p>
+      </div>
+      <p class="subtitle">Mark each of the five prayers as you go, watch your week take shape, and set an amount for charity on any you miss.</p>
+    </header>
+
+    <section class="section tally-section">
+      <div class="tally">
+        <div class="tally-figure">
+          <span id="prayedCount" class="num prayed">0</span>
+          <span class="lbl">prayed</span>
+        </div>
+        <div class="tally-figure">
+          <span id="missedCount" class="num missed">0</span>
+          <span class="lbl">missed</span>
+        </div>
+        <div class="tally-figure">
+          <span id="pendingCount" class="num pending">0</span>
+          <span class="lbl">left</span>
+        </div>
+        <div class="tally-charity">
+          <span class="lbl">charity due today</span>
+          <strong>₹<span id="charityToday">0</span></strong>
+        </div>
+      </div>
+    </section>
+
+    <section class="section timeline-section">
+      <div class="section-head">
+        <h2>Today's timetable</h2>
+        <span class="hint" id="todayDow"></span>
+      </div>
+      <div class="timeline-wrap">
+        <svg id="timelineSvg" class="timeline-svg" viewBox="0 0 600 78" preserveAspectRatio="xMidYMid meet" role="img" aria-label="Today's five prayer times plotted across the day"></svg>
+        <p class="timeline-caption" id="timelineCaption"></p>
+      </div>
+    </section>
+
+    <section class="section prayers-section">
+      <div class="prayer-list">
+        <div class="prayer-row" data-prayer="Fajr">
+          <span></span>
+          <div class="prayer-info">
+            <span class="prayer-name">Fajr</span>
+            <span class="prayer-status-word" data-status-text>Pending</span>
+          </div>
+          <input type="time" class="prayer-time" value="05:00" aria-label="Fajr time" />
+          <div class="status-buttons">
+            <button class="btn-status prayed" data-status="prayed">Prayed</button>
+            <button class="btn-status missed" data-status="missed">Missed</button>
+          </div>
+        </div>
+
+        <div class="prayer-row" data-prayer="Dhuhr">
+          <span></span>
+          <div class="prayer-info">
+            <span class="prayer-name">Dhuhr</span>
+            <span class="prayer-status-word" data-status-text>Pending</span>
+          </div>
+          <input type="time" class="prayer-time" value="13:15" aria-label="Dhuhr time" />
+          <div class="status-buttons">
+            <button class="btn-status prayed" data-status="prayed">Prayed</button>
+            <button class="btn-status missed" data-status="missed">Missed</button>
+          </div>
+        </div>
+
+        <div class="prayer-row" data-prayer="Asr">
+          <span></span>
+          <div class="prayer-info">
+            <span class="prayer-name">Asr</span>
+            <span class="prayer-status-word" data-status-text>Pending</span>
+          </div>
+          <input type="time" class="prayer-time" value="16:30" aria-label="Asr time" />
+          <div class="status-buttons">
+            <button class="btn-status prayed" data-status="prayed">Prayed</button>
+            <button class="btn-status missed" data-status="missed">Missed</button>
+          </div>
+        </div>
+
+        <div class="prayer-row" data-prayer="Maghrib">
+          <span></span>
+          <div class="prayer-info">
+            <span class="prayer-name">Maghrib</span>
+            <span class="prayer-status-word" data-status-text>Pending</span>
+          </div>
+          <input type="time" class="prayer-time" value="18:00" aria-label="Maghrib time" />
+          <div class="status-buttons">
+            <button class="btn-status prayed" data-status="prayed">Prayed</button>
+            <button class="btn-status missed" data-status="missed">Missed</button>
+          </div>
+        </div>
+
+        <div class="prayer-row" data-prayer="Isha">
+          <span></span>
+          <div class="prayer-info">
+            <span class="prayer-name">Isha</span>
+            <span class="prayer-status-word" data-status-text>Pending</span>
+          </div>
+          <input type="time" class="prayer-time" value="20:00" aria-label="Isha time" />
+          <div class="status-buttons">
+            <button class="btn-status prayed" data-status="prayed">Prayed</button>
+            <button class="btn-status missed" data-status="missed">Missed</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section week-section">
+      <div class="section-head">
+        <h2>This week</h2>
+        <span class="hint">last 7 days</span>
+      </div>
+      <div class="week-grid" id="weekGrid"></div>
+    </section>
+
+    <section class="section settings-section">
+      <details class="settings">
+        <summary>Charity setting</summary>
+        <div class="settings-body">
+          <div class="field">
+            <label for="charityPerMissed">Amount per missed Salah</label>
+            <div class="field-charity">
+              <span class="prefix">₹</span>
+              <input type="number" id="charityPerMissed" min="0" step="1" value="10" />
+            </div>
+          </div>
+          <p class="intention">Intention: if any Salah is missed, I will give this amount in charity or feed a person in need, in shaa Allah.</p>
+        </div>
+      </details>
+    </section>
+
+    <footer class="footer">
+      <p>This tool is here to support your discipline — the reward for the prayer itself is with Allah. 🌙</p>
+    </footer>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
